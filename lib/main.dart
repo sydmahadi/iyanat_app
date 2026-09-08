@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'entry_screen.dart';
+import 'info_screen.dart';
+import 'note_screen.dart';
+import 'calculator_screen.dart';
+import 'calendar_screen.dart';
+
 void main() {
   runApp(const IyanatApp());
 }
@@ -86,8 +92,9 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
+            // Menu
             Expanded(
               child: GridView.count(
                 padding: const EdgeInsets.all(20),
@@ -97,29 +104,43 @@ class HomePage extends StatelessWidget {
                 childAspectRatio: 1.08,
                 children: [
                   menuCard(
+                    context,
                     'এন্ট্রি করুন',
                     'নতুন তথ্য যোগ করুন',
                     Icons.edit_note_rounded,
+                    const EntryScreen(),
                   ),
+
                   menuCard(
+                    context,
                     'তথ্য দেখুন',
                     'প্রয়োজনীয় তথ্য',
                     Icons.auto_stories_rounded,
+                    const InfoScreen(),
                   ),
+
                   menuCard(
+                    context,
                     'নোট করুন',
                     'আপনার নোট',
                     Icons.sticky_note_2_rounded,
+                    const NoteScreen(),
                   ),
+
                   menuCard(
+                    context,
                     'ক্যালকুলেটর',
                     'সহজ হিসাব করুন',
                     Icons.calculate_rounded,
+                    const CalculatorScreen(),
                   ),
+
                   menuCard(
+                    context,
                     'ক্যালেন্ডার',
                     'তারিখ দেখুন',
                     Icons.calendar_month_rounded,
+                    const CalendarScreen(),
                   ),
                 ],
               ),
@@ -160,8 +181,82 @@ class HomePage extends StatelessWidget {
   }
 
   Widget menuCard(
+    BuildContext context,
     String title,
     String subtitle,
     IconData icon,
+    Widget screen,
   ) {
-    return
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => screen,
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: gold.withOpacity(0.25),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: darkGreen.withOpacity(0.08),
+                blurRadius: 15,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: darkGreen.withOpacity(0.08),
+                ),
+                child: Icon(
+                  icon,
+                  size: 30,
+                  color: green,
+                ),
+              ),
+
+              const SizedBox(height: 11),
+
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF183329),
+                ),
+              ),
+
+              const SizedBox(height: 4),
+
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF7A877F),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
